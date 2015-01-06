@@ -40,7 +40,7 @@ def PonderateTFIDF(dictio, dictioDocID, dictioWord):
 def UsePonderation(ponderationType, dictioDocID, dictioWord):
     dictioReturned = dict()
     
-    for docID in dictGlobal:
+    for docID in dictioDocID:
         if(ponderationType == 0):
             dictioReturned[docID] = PonderateFreqNorm(dictioDocID[docID])
         else:
