@@ -6,6 +6,7 @@ import DictioManager
 import VectorialModule
 import BooleanModule
 import PonderatorModule
+import ProbabilistModule
 
 file = open('cacm.all','r')
 common_words = open('common_words', 'r').read()
