@@ -28,10 +28,14 @@
     <Compile Include="DictioManager.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="EvaluationModule.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="InfoResearch.py" />
     <Compile Include="PonderatorModule.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ProbabilistModule.py" />
     <Compile Include="VectorialModule.py">
       <SubType>Code</SubType>
     </Compile>

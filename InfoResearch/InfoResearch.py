@@ -7,25 +7,39 @@ import VectorialModule
 import BooleanModule
 import PonderatorModule
 import ProbabilistModule
+import EvaluationModule
+import time
 
 file = open('cacm.all','r')
 common_words = open('common_words', 'r').read()
 
+requestForVector = "system computer tables"
+requestForBoolean = "(system OR NOT computer) AND tables"      
+
 # Dictio[docID, Dictio[word, occurence]]
+#EvaluationModule.getTimeDictioDocID(file, common_words)
 dictioDocID = DictioManager.CreateDictioFromFile(file, common_words)
 
 # Dictio[word, Dictio[docID, occurence]]
+EvaluationModule.getTimeDictioWord(dictioDocID)
 dictioWord = DictioManager.CreateInverseDictio(dictioDocID)
 
-# Dictio[word, Dictio[docID, ponderationValueFreqNorm]]
+# Dictio[docID, Dictio[word, ponderationValueFreqNorm]]
+EvaluationModule.getTimePonderFreqNorm(dictioDocID, dictioWord)
 dictioPonderFreqNorm = PonderatorModule.UsePonderation(0, dictioDocID, dictioWord)
 
-# Dictio[word, Dictio[docID, ponderationValueTF-IDF]]
+# Dictio[docID, Dictio[word, ponderationValueTF-IDF]]
+EvaluationModule.getTimePonderTFIDF(dictioDocID, dictioWord)
 dictioPonderTFIDF = PonderatorModule.UsePonderation(1, dictioDocID, dictioWord)
 
-requestForVector = "system computer tables"
+# Get the result of a vectorial request
+EvaluationModule.getTimeVectorialRequest(requestForVector, dictioWord, common_words)
 VectorialModule.VectorialRequest(requestForVector, dictioWord, common_words)
 
-requestForBoolean = "(system OR NOT computer) AND tables"          
+# Get the result of a boolean request   
+#EvaluationModule.getTimeBooleanRequest(requestForBoolean, dictioWord, common_words)
 BooleanModule.BooleanRequest(requestForBoolean, dictioWord, common_words)
 
+# Performances evaluation
+EvaluationModule.runEvaluation(common_words, dictioDocID, dictioWord, requestForVector, requestForBoolean)
+EvaluationModule.getDiskSize(dictioDocID, dictioWord, dictioPonderFreqNorm, dictioPonderTFIDF)
