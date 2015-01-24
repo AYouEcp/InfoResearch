@@ -17,23 +17,24 @@ requestForVector = "system computer tables"
 requestForBoolean = "(system OR NOT computer) AND tables"      
 
 # Dictio[docID, Dictio[word, occurence]]
+""" WARNING: When getTimeDictioDocID runs, the other tests failed """
 #EvaluationModule.getTimeDictioDocID(file, common_words)
 dictioDocID = DictioManager.CreateDictioFromFile(file, common_words)
 
 # Dictio[word, Dictio[docID, occurence]]
-EvaluationModule.getTimeDictioWord(dictioDocID)
+#EvaluationModule.getTimeDictioWord(dictioDocID)
 dictioWord = DictioManager.CreateInverseDictio(dictioDocID)
 
 # Dictio[docID, Dictio[word, ponderationValueFreqNorm]]
-EvaluationModule.getTimePonderFreqNorm(dictioDocID, dictioWord)
+#EvaluationModule.getTimePonderFreqNorm(dictioDocID, dictioWord)
 dictioPonderFreqNorm = PonderatorModule.UsePonderation(0, dictioDocID, dictioWord)
 
 # Dictio[docID, Dictio[word, ponderationValueTF-IDF]]
-EvaluationModule.getTimePonderTFIDF(dictioDocID, dictioWord)
+#EvaluationModule.getTimePonderTFIDF(dictioDocID, dictioWord)
 dictioPonderTFIDF = PonderatorModule.UsePonderation(1, dictioDocID, dictioWord)
 
 # Get the result of a vectorial request
-EvaluationModule.getTimeVectorialRequest(requestForVector, dictioWord, common_words)
+#EvaluationModule.getTimeVectorialRequest(requestForVector, dictioWord, common_words)
 VectorialModule.VectorialRequest(requestForVector, dictioWord, common_words)
 
 # Get the result of a boolean request   
