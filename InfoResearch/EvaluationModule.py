@@ -75,3 +75,23 @@ def getDiskSize(dictioDocID, dictioWord, dictioPonderFreqNorm, dictioPonderTFIDF
     print("La taille de Dictio[word, Dictio[docID, occurence]] est: " + str(sys.getsizeof(dictioWord)) + " bytes.")
     print("La taille de Dictio[docID, Dictio[word, ponderationValueFreqNorm]] est: " + str(sys.getsizeof(dictioPonderFreqNorm)) + " bytes.")
     print("La taille de Dictio[docID, Dictio[word, ponderationValueTF-IDF]]: est: " + str(sys.getsizeof(dictioPonderTFIDF)) + " bytes.")
+
+def getPrecision(request, dictioWord, common_words):
+
+    return 0
+
+def getRecall():
+
+    return 0
+
+def getFMeasure(precision, recall):
+
+    return 2 * (precision * recall) / (precision + recall)
+
+def getEMeasure():
+
+    return 0
+
+def getRMeasure():
+
+    return 0
