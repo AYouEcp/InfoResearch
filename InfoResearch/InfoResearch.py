@@ -33,6 +33,13 @@ dictioPonderFreqNorm = PonderatorModule.UsePonderation(0, dictioDocID, dictioWor
 #EvaluationModule.getTimePonderTFIDF(dictioDocID, dictioWord)
 dictioPonderTFIDF = PonderatorModule.UsePonderation(1, dictioDocID, dictioWord)
 
+# Dictio[word, Dictio[docID, ponderationValueFreqNorm]]
+dictioPonderFreqNormWord = DictioManager.CreateInverseDictio(dictioPonderFreqNorm)
+
+# Dictio[word, Dictio[docID, ponderationValueTF-IDF]]
+dictioPonderTFIDFWord = DictioManager.CreateInverseDictio(dictioPonderTFIDF)
+ 
+
 # Get the result of a vectorial request
 #EvaluationModule.getTimeVectorialRequest(requestForVector, dictioWord, common_words)
 VectorialModule.VectorialRequest(requestForVector, dictioWord, common_words)
