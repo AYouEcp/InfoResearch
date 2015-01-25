@@ -61,7 +61,15 @@ def getTimeBooleanRequest(requestForBoolean, dictioWord, common_words):
     endTime = time.clock()
     print("Temps de calcul pour reponse d'une requete booleenne est: " + str(endTime - startTime))
 
-    return (endTime - startTime)      
+    return (endTime - startTime)     
+
+def getTimeProbabilistRequest(requestForVector, dictioWord, dictioDocID, common_words):
+    startTime = time.clock() 
+    ProbabilistModule.ProbabilistRequest(requestForVector, dictioWord, dictioDocID, common_words)
+    endTime = time.clock()
+    print("Temps de calcul pour reponse d'une requete probabiliste est: " + str(endTime - startTime))
+
+    return (endTime - startTime)  
 
 def runEvaluation(common_words, dictioDocID, dictioWord, requestForVector, requestForBoolean):
     getTimeDictioWord(dictioDocID)
@@ -69,6 +77,7 @@ def runEvaluation(common_words, dictioDocID, dictioWord, requestForVector, reque
     getTimePonderTFIDF(dictioDocID, dictioWord)
     getTimeVectorialRequest(requestForVector, dictioWord, common_words)
     getTimeBooleanRequest(requestForBoolean, dictioWord, common_words)
+    getTimeProbabilistRequest(requestForVector, dictioWord, dictioDocID, common_words)
 
 def getDiskSize(dictioDocID, dictioWord, dictioPonderFreqNorm, dictioPonderTFIDF):
     print("La taille de Dictio[docID, Dictio[word, occurence]] est: " + str(sys.getsizeof(dictioDocID)) + " bytes.")
