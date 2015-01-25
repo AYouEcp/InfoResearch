@@ -4,6 +4,8 @@
 
 import re
 import math
+from operator import itemgetter
+
 
 """ Return a list of docID containing the words in the request (request pattern: (A B C)), given a DictioWord """
 def VectorialRequest(request, dictioWord, common_words):
@@ -38,9 +40,8 @@ def VectorialRequest(request, dictioWord, common_words):
         requeteLength += dictioRequest[word]*dictioRequest[word]
     for docID in dictioSimil:
         actualsize = dictioSimil[docID]
-        dictioSimil[docID] = actualsize / (math.sqrt(requeteLength) * math.sqrt(dictioLength[docID]))
+        dictioSimil[docID] = round(actualsize / (math.sqrt(requeteLength) * math.sqrt(dictioLength[docID])), 12)
     #remplir une liste des documents tries par similarite
-    #print(dictioSimil)
+    listDoc = sorted(dictioSimil.items(), key=itemgetter(1), reverse = True)
+    #print(listDoc[0:100])
     return listDoc
-
-# TODO: return sorted list
