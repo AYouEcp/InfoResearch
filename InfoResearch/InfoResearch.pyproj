@@ -32,6 +32,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InfoResearch.py" />
+    <Compile Include="ProbabilistModule.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PonderatorModule.py">
       <SubType>Code</SubType>
     </Compile>
