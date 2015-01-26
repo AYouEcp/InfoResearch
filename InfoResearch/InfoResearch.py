@@ -42,16 +42,20 @@ dictioPonderTFIDFWord = DictioManager.CreateInverseDictio(dictioPonderTFIDF)
 
 # Get the result of a vectorial request
 #EvaluationModule.getTimeVectorialRequest(requestForVector, dictioWord, common_words)
-VectorialModule.VectorialRequest(requestForVector, dictioWord, common_words)
+#VectorialModule.VectorialRequest(requestForVector, dictioWord, common_words)
 
 # Get the result of a boolean request   
 #EvaluationModule.getTimeBooleanRequest(requestForBoolean, dictioWord, common_words)
-BooleanModule.BooleanRequest(requestForBoolean, dictioWord, common_words)
+#BooleanModule.BooleanRequest(requestForBoolean, dictioWord, common_words)
 
 # Get the result of a probabilistic request   
 #EvaluationModule.getTimeProbabilistRequest(requestForBoolean, dictioWord, common_words)
-ProbabilistModule.ProbabilistRequest(requestForVector, dictioWord, dictioDocID, common_words)
+#ProbabilistModule.ProbabilistRequest(requestForVector, dictioWord, dictioDocID, common_words)
 
 # Performances evaluation
-EvaluationModule.runEvaluation(common_words, dictioDocID, dictioWord, requestForVector, requestForBoolean)
-EvaluationModule.getDiskSize(dictioDocID, dictioWord, dictioPonderFreqNorm, dictioPonderTFIDF)
+#EvaluationModule.runEvaluation(common_words, dictioDocID, dictioWord, requestForVector, requestForBoolean)
+#EvaluationModule.getDiskSize(dictioDocID, dictioWord, dictioPonderFreqNorm, dictioPonderTFIDF)
+
+# Precision
+result = EvaluationModule.getPrecision(requestForVector, 0, dictioWord, dictioPonderFreqNormWord, common_words)
+print(result)
