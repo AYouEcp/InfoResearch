@@ -8,6 +8,7 @@ import BooleanModule
 import PonderatorModule
 import ProbabilistModule
 import EvaluationModule
+import Courbe
 import time
 
 file = open('cacm.all','r')
@@ -54,8 +55,19 @@ dictioPonderTFIDFWord = DictioManager.CreateInverseDictio(dictioPonderTFIDF)
 
 # Performances evaluation
 #EvaluationModule.runEvaluation(common_words, dictioDocID, dictioWord, requestForVector, requestForBoolean)
-#EvaluationModule.getDiskSize(dictioDocID, dictioWord, dictioPonderFreqNorm, dictioPonderTFIDF)
+#EvaluationModule.getDiskSize(dictioDocID, dictioWord, dictioPonderFreqNorm, dictioPonderTFIDF) 
 
-# Precision
-result = EvaluationModule.getPrecision(requestForVector, 0, dictioWord, dictioPonderFreqNormWord, common_words)
-print(result)
+# Courbe
+fileQRels = open('qrels.text','r')
+fileQuery = open('query.text', 'r')
+
+dictioListDocID_TP = Courbe.createDictioListDocID_TP(fileQRels)
+listRequest = Courbe.createListRequest(fileQuery)
+
+#Precision & recall
+listPrecision = EvaluationModule.getPrecision(listRequest, 0, dictioListDocID_TP, dictioPonderFreqNormWord, common_words)
+print(listPrecision)
+
+listRecall = EvaluationModule.getRecall(listRequest, 0, dictioListDocID_TP, dictioPonderFreqNormWord, common_words)
+print(listRecall)
+

@@ -25,6 +25,9 @@
     <Compile Include="BooleanModule.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Courbe.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DictioManager.py">
       <SubType>Code</SubType>
     </Compile>
@@ -46,6 +49,8 @@
   <ItemGroup>
     <Content Include="cacm.all" />
     <Content Include="common_words" />
+    <Content Include="qrels.text" />
+    <Content Include="query.text" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

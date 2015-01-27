@@ -47,7 +47,6 @@ def getTimePonderTFIDF(dictioDocID, dictioWord):
 
     return (endTime - startTime)
 
-
 def getTimeVectorialRequest(requestForVector, dictioWord, common_words):
     startTime = time.clock() 
     VectorialModule.VectorialRequest(requestForVector, dictioWord, common_words)
@@ -88,106 +87,80 @@ def getDiskSize(dictioDocID, dictioWord, dictioPonderFreqNorm, dictioPonderTFIDF
 
 
 # Use moduleInt == 0 to do a vectorial request and 1 to do a boolean request. The dictioRequest can be either dictioPonderFreqNormWord or dictioPonderTFIDFWord 
-def getPrecision(request, moduleInt, dictioWord, dictioRequest, common_words):
+def getPrecision(listRequest, moduleInt, dictioListDocID_TP, dictioRequest, common_words):
+    listPrecision = []
     result = 0
     
-    if moduleInt == 0:
-        # Filtering words from request
-        words = re.findall(r"[\w']+", request)
-        filtered_words = list([i.lower() for i in words if i.lower() not in common_words])   
+    for request in listRequest:
+        index = listRequest.index(request)
+        if(index in dictioListDocID_TP.keys()):
+            if moduleInt == 0:
+                # Vectorial Request     
+                listVectorialDocID = VectorialModule.VectorialRequest(request, dictioRequest, common_words)
+                pertinent = 0
+                for i in listVectorialDocID:
+                    if i[0] in dictioListDocID_TP[index]:
+                        if i[1] > 0:
+                            pertinent += 1
+                if(len(listVectorialDocID) != 0):
+                    result = pertinent / len(listVectorialDocID)
+                else :
+                    result = 0
+
+            elif moduleInt == 1:
+                # Boolean Request
+                listBooleanDocID = BooleanModule.BooleanRequest(request, dictioRequest, common_words)
+                pertinent = 0
+                for i in listBooleanDocID:
+                    if i[0] in dictioListDocID_TP[index]:
+                        if i[1] > 0:
+                            pertinent += 1
+                if(len(listBooleanDocID) != 0):
+                    result = pertinent / len(listBooleanDocID)
+                else:
+                    result = 0
         
-        for word in filtered_words:
-            listDocID_TP = []
-            for i in dictioWord[word]:
-                listDocID_TP.append(i)
-        
-        listVectorialDocID = VectorialModule.VectorialRequest(request, dictioRequest, common_words)
-        pertinent = 0
-        for i in listVectorialDocID:
-            if i[0] in listDocID_TP:
-                pertinent += 1
-
-        result = pertinent / len(listVectorialDocID)
-
-    elif moduleInt == 1:
-        # Parsage string with AND (each substring has a (A OR B OR NOT C) pattern)
-        substrings = request.split(" AND ")
-        # Parsage substrings with OR (each word has a "(A" or "B" or "NOT C" or "D)" pattern)
-        for substring in substrings:                
-            # Array Partiel for OR
-            arrayPartiel = [0 for i in range(dictioLength)] 
-            words = substring.split(" OR ")
-            for word in words:
-                # Remove "(", ")" (each word has a "A" or "NOT B" pattern)
-                wordClean = word.replace("(", "").replace(")", "").replace("NOT", "").replace(" ","").lower()
-                
-                listDocID_TP = []
-                for i[0] in dictioWord[wordClean]:
-                    listDocID_TP.append(i)
-    
-        listBooleanDocID = BooleanModule.BooleanRequest(request, dictioRequest, common_words)
-        pertinent = 0
-        for i in listBooleanDocID:
-            if i in listDocID_TP:
-                pertinent += 1
-
-        result = pertinent / len(listBooleanDocID)
-
-    else: 
-        result = 0
-    
-    return result
+            else: 
+                result = 0
+            # At position i, precision for request i + 1    
+            listPrecision.append(result)
+    return listPrecision
 
 # Use moduleInt == 0 to do a vectorial request and 1 to do a boolean request. The dictioRequest can be either dictioPonderFreqNormWord or dictioPonderTFIDFWord 
-def getRecall(request, moduleInt, dictioWord, dictioRequest, common_words):
+def getRecall(listRequest, moduleInt, dictioListDocID_TP, dictioRequest, common_words):
+    listPrecision = []
     result = 0
     
-    if moduleInt == 0:
-        # Filtering words from request
-        words = re.findall(r"[\w']+", request)
-        filtered_words = list([i.lower() for i in words if i.lower() not in common_words])   
-        
-        for word in filtered_words:
-            listDocID_TP = []
-            for i[0] in dictioWord[word]:
-                listDocID_TP.append(i)
-        
-        listVectorialDocID = VectorialModule.VectorialRequest(request, dictioRequest, common_words)
-        pertinent = 0
-        for i in listVectorialDocID:
-            if i in listDocID_TP:
-                pertinent += 1
+    for request in listRequest:
+        index = listRequest.index(request)
+        if(index in dictioListDocID_TP.keys()):
+            if moduleInt == 0:
+                # Vectorial Request     
+                listVectorialDocID = VectorialModule.VectorialRequest(request, dictioRequest, common_words)
+                pertinent = 0
+                for i in listVectorialDocID:
+                    if i[0] in dictioListDocID_TP[index]:
+                        if i[1] > 0:
+                            pertinent += 1
 
-        result = pertinent / len(listDocID_TP)
+                result = pertinent / len(dictioListDocID_TP[index])
 
-    elif moduleInt == 1:
-        # Parsage string with AND (each substring has a (A OR B OR NOT C) pattern)
-        substrings = request.split(" AND ")
-        # Parsage substrings with OR (each word has a "(A" or "B" or "NOT C" or "D)" pattern)
-        for substring in substrings:                
-            # Array Partiel for OR
-            arrayPartiel = [0 for i in range(dictioLength)] 
-            words = substring.split(" OR ")
-            for word in words:
-                # Remove "(", ")" (each word has a "A" or "NOT B" pattern)
-                wordClean = word.replace("(", "").replace(")", "").replace("NOT", "").replace(" ","").lower()
-                
-                listDocID_TP = []
-                for i in dictioWord[wordClean]:
-                    listDocID_TP.append(i)
-    
-        listBooleanDocID = BooleanModule.BooleanRequest(request, dictioRequest, common_words)
-        pertinent = 0
-        for i in listBooleanDocID:
-            if i[0] in listDocID_TP:
-                pertinent += 1
+            elif moduleInt == 1:
+                # Boolean Request
+                listBooleanDocID = BooleanModule.BooleanRequest(request, dictioRequest, common_words)
+                pertinent = 0
+                for i in listBooleanDocID:
+                    if i[0] in dictioListDocID_TP[index]:
+                        if i[1] > 0:
+                            pertinent += 1
 
-        result = pertinent / len(listDocID_TP)
+                result = pertinent / len(dictioListDocID_TP[index])
 
-    else: 
-        result = 0
-    
-    return result
+            else: 
+                result = 0
+            # At position i, precision for request i + 1    
+            listPrecision.append(result)
+    return listPrecision
 
 # Use beta == 1 for equal ponderation on precision and recall
 def getE_Measure(beta, precision, recall):
